@@ -4,7 +4,7 @@ clone the repository
 git clone https://github.com/snipsco/snips-platform-docker.git
 ```
 
-enter the 
+enter the snips-platform-docker directory and the image folder you want to build , then build the image: 
 ```
 docker build --no-cache -t snips-pulseaudio-docker .
 
