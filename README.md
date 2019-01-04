@@ -13,7 +13,7 @@ docker build --no-cache -t snips-pulseaudio-docker .
 result is `Successfully tagged snips-pulseaudio-docker:latest`
 
 
-install pulesaudio on your host system or any network available host, you need to load the `module-native-protocol-tcp` module.
+install pulseaudio on your host system or any network available host, you need to load the `module-native-protocol-tcp` module.
 On a mac you can start pulseaudio like this:
 
 macos install pulseaudio
