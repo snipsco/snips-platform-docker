@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Execute cli if requested
 if [ "$1" = "snips" ]
 then
