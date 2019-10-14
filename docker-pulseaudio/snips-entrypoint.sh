@@ -17,7 +17,6 @@ fi
 
 SUPERVISORD_CONF_FILE="/etc/supervisor/conf.d/supervisord.conf"
 ASR_TYPE=`cat $ASSISTANT_FILE|jq --raw-output '.asr.type'`
-ANALYTICS_ENABLED=`cat $ASSISTANT_FILE|jq --raw-output '.analyticsEnabled'`
 SNIPS_MOSQUITTO_FLAG="-h localhost -p 1883"
 
 
@@ -61,11 +60,6 @@ then
     SNIPS_HOTWORD_MQTT_ARGS=""
 fi
 
-if [ -z "$SNIPS_ANALYTICS_MQTT_ARGS" ]
-then
-    SNIPS_ANALYTICS_MQTT_ARGS=""
-fi
-
 if [ -z "$SNIPS_QUERIES_MQTT_ARGS" ]
 then
     SNIPS_QUERIES_MQTT_ARGS=""
@@ -74,7 +68,7 @@ fi
 
 # Read "global" arguments
 USE_INTERNAL_MQTT=true
-ALL_SNIPS_COMPONENTS=("snips-asr-google" "snips-asr" "snips-audio-server" "snips-tts" "snips-hotword" "snips-nlu" "snips-dialogue" "snips-analytics" "snips-debug")
+ALL_SNIPS_COMPONENTS=("snips-asr-google" "snips-asr" "snips-audio-server" "snips-tts" "snips-hotword" "snips-nlu" "snips-dialogue" "snips-debug")
 declare -A SNIPS_COMPONENTS
 for c in ${ALL_SNIPS_COMPONENTS[@]}
 do
@@ -87,11 +81,6 @@ then
 elif [ "$ASR_TYPE" != "snips" ]
 then
     SNIPS_COMPONENTS["snips-asr"]=false
-fi
-
-if [ "$ANALYTICS_ENABLED" != "true" ]
-then
-    SNIPS_COMPONENTS["snips-analytics"]=false
 fi
 
 if [ "$SNIPS_AUDIO_SERVER_ENABLED" != "true" ]
@@ -357,27 +346,6 @@ stdout_logfile_maxbytes=0
 EOT
 else
     echo "snips-dialogue is disabled"
-fi
-
-
-# Generate snips-analytics
-if [ "${SNIPS_COMPONENTS['snips-analytics']}" = true ]
-then
-    echo Spawning /usr/bin/snips-analytics $LOGLEVEL $SNIPS_MQTT_FLAG $SNIPS_ANALYTICS_MQTT_ARGS 
-    cat <<EOT >> $SUPERVISORD_CONF_FILE
-[program:snips-analytics]
-command=/usr/bin/snips-analytics $LOGLEVEL $SNIPS_MQTT_FLAG $SNIPS_ANALYTICS_MQTT_ARGS
-autorestart=unexpected
-directory=/root
-environment=RUMQTT_READ_TIMEOUT_MS="50"
-exitcodes=0
-stderr_logfile=/dev/fd/1
-stderr_logfile_maxbytes=0
-stdout_logfile=/dev/fd/1
-stdout_logfile_maxbytes=0
-EOT
-else
-    echo "snips-analytics is disabled"
 fi
 
 
