@@ -129,8 +129,14 @@ docker run -it -e PULSE_SERVER=<HOST_IP_ADDRESS> -e SNIPS_AUDIO_SERVER_ARGS="--a
 
 ### Build a new container with your assistant
 
-If you want a single container that include your assistant, modify the docker file to `ADD` it to your container at build time.
+If you want a single container that include your assistant, modify the docker file to `COPY` it to your container at build time.
+
+To do so, modify the `Dockerfile` to copy your assistant folder into the container.
+
+If your assistant folder is located in the `docker-pulseaudio` sub folder, add this line to your `Dockerfile`.
 
 ```bash
-
+COPY assistant /usr/share/snips/assistant
 ```
+
+Once done, rebuild your docker container and start it.
