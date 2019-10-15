@@ -100,6 +100,12 @@ Identify the host IP address and replace the `<HOST_IP_ADDRESS>` place holder by
 docker run -it -e PULSE_SERVER=<HOST_IP_ADDRESS> -e SNIPS_AUDIO_SERVER_ARGS="--alsa_capture=pulse --alsa_playback=pulse -v" -e SNIPS_AUDIO_SERVER_ENABLED="true" snips-pulseaudio-docker:latest
 ```
 
+> **Note**
+>
+> On Windows, when starting the container, the following error log appears  when the entry point script as been modified with windows end of line caracter: `standard_init_linux.go:211: exec user process caused "no such file or directory"`
+>
+> Use a tool such as `dos2unix` to reformat `snips-entrypoint.sh` correctly and rebuild your container.
+
 ### Inspect the platform with snips-watch
 
 You can then connect to the running container and start `snips-watch` to check if everything is working as expected.
