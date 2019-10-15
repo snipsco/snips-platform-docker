@@ -11,8 +11,13 @@ This repository provides the instructions, DockerFile and scripts needed to:
 
 ### Prequisites
 
-- [Docker](https://docs.docker.com/ee/desktop/) is up and running
-- This repository is available on your host environment.
+- [Docker](https://docs.docker.com/ee/desktop/) is up and running on your host operating system.
+
+### Clone this repository
+
+```bash
+git clone git@github.com:snipsco/snips-platform-docker.git
+```
 
 ### Build the container
 
@@ -81,7 +86,7 @@ pulseaudio --load="module-native-protocol-tcp auth-anonymous=1" --exit-idle-time
 
 Notes:
 
-- Using Windows or MacOS make sure that the PulseAudio server is allowed to use the network and audio interfaces.
+- Using Windows or MacOS, make sure that the PulseAudio server is allowed to use the network and audio interfaces.
 - Using Windows, the PulseAudio Server can be terminated using the task manager.
 - For debug purpose, remove `--daemon` flag to observe the server logs in a terminal.
 - In this example, no authentication is needed to connect to the PulseAudio Server. Please refer to PulseAudio [documentation](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Network/#index2h2) for other authentication methods.
