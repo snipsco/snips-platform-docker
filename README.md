@@ -1,4 +1,4 @@
-# Docker Snips Platform
+# Snips Platform Docker Container
 
 ## Scope
 
@@ -16,7 +16,7 @@ This repository provides the instructions, DockerFile and scripts needed to:
 
 ### Build the container
 
-Enter the `docker-pulseaudio` sub folders and build the container.
+Enter the `docker-pulseaudio` sub folder and build the container.
 
 ```bash
 cd docker-pulseaudio
@@ -31,7 +31,23 @@ Successfully tagged snips-pulseaudio-docker:latest
 
 This container is preconfigured for the `snips-audio-server` component to use `PulseAudio` audio backend.
 
-Hence, a `PulseAudio` **server** must be started on the host platform to share its capture and playback interfaces with the container running the snips platform.
+Hence, a `PulseAudio` **server** must be started on the host operating system to share its capture and playback interfaces with the container running the snips platform.
+
+```ascii
++ ----------------------------------------------------------- +
+| Host OS                         +------------------------+  |
+|                                 | Docker Container       |  |
+| +----------------------+  tcp   | +--------------------+ |  |
+| | PulseAudio Server    | <----> | | PulseAudio Client  | |  |
+| +----------------------+        | +--------------------+ |  |
+|          |  ^ ️                  |         |  ^           |  |
+|      ️    v  |                   |         v  |           |  |
+| +----------------------+        | +--------------------+ |  |
+| | Host Audio           |        | | snips-audio-server | |  |
+| | Capture and Playback |        | +--------------------+ |  |
+| +----------------------+        +------------------------+  |
++ ----------------------------------------------------------- +
+```
 
 ## Configure PulseAudio server
 
@@ -94,3 +110,5 @@ To do so, find your snips container `Id` or `name` and start `snips-watch`.
 docker ps -a
 docker exec -it <ID> snips-watch -v
 ```
+
+## Deploy your assistant
