@@ -128,7 +128,9 @@ You might want to replace the default weather demo assistant with your own assis
 
 To do so, retrieve an assistant package on the console and unzip it on your machine.
 
-### Mount your assistant in your snips platform container
+Then, you can either mount your assistant folder within the snips-platform container or build a new container to include your assistant.
+
+### Method 1 - Mount your assistant in your snips platform container
 
 To provide this assistant to your container without modifiying it, execute the following command to override the default assistant subfolder located at `/usr/share/snips/assistant`.
 
@@ -138,7 +140,7 @@ Replace `<PATH/TO/YOUR/ASSISTANT>` placeholder by the correct path to your assis
 docker run -it -e PULSE_SERVER=<HOST_IP_ADDRESS> -e SNIPS_AUDIO_SERVER_ARGS="--alsa_capture=pulse --alsa_playback=pulse -v" -e SNIPS_AUDIO_SERVER_ENABLED="true" -v <PATH/TO/YOUR/ASSISTANT>:/usr/share/snips/assistant  snips-pulseaudio-docker:latest
 ```
 
-### Build a new container with your assistant
+### Method 2 - Build a new container with your assistant
 
 If you want a single container that include your assistant, modify the docker file to `COPY` it to your container at build time.
 
