@@ -7,6 +7,8 @@ This repository provides the instructions, DockerFile and scripts needed to:
 - Run the snips platform components in a docker container.
 - Provide the host platform audio capture and playback interfaces to the container.
 
+> Those instructions assume that the reader is familiar with the use of docker containers.
+
 ## Build the snips platform container
 
 ### Prequisites
@@ -153,3 +155,42 @@ COPY assistant /usr/share/snips/assistant
 ```
 
 Once done, rebuild your docker container and start it.
+
+## Integration with your action code
+
+There is also multiple ways to proceed, one can either:
+
+- Expose mosquitto MQTT broker port to the host operating system and run the action code locally.
+- Package and run the action code within the container.
+
+### Method 1 - Expose the MQTT broker to the host
+
+Mosquitto MQTT broker is already running on the container on the port `1883`.
+
+To expose this port to the host, modify the DockerFile, `EXPOSE` this port and rebuild the container.
+
+```bash
+# e.g. expose port 1883 using port 8888 on the host at build time.
+EXPOSE 8888:1883
+```
+
+It is also possible to do it at execution time by adding the option `-p <target_port>:<source_port>` to the command line.
+
+```bash
+# e.g. expose port 1883 using port 8888 on the host at execution time.
+docker run -it -e PULSE_SERVER=<HOST_IP_ADDRESS> -e SNIPS_AUDIO_SERVER_ARGS="--alsa_capture=pulse --alsa_playback=pulse -v" -e SNIPS_AUDIO_SERVER_ENABLED="true" -p 8888:1883 snips-pulseaudio-docker:latest
+```
+
+Then you can test that the MQTT broker is correctly exposed on your local host using a MQTT client such as `mosquitto_pub`
+
+```bash
+mosquitto_pub -t hermes/tts/say -h localhost -p 8888 -m '{"siteId":"default", "lang":"en-us", "text": "Can you ear this? Thanks for your attention.", "id": "123456", "sessionId": "1234"}'
+```
+
+Your action is now able to communicate with the snips platform.
+
+### Method 2 - Run your action code in the container
+
+- Modify the `DockerFile` to include your action code.
+- Modify the `snips-entrypoint.sh` to launch your services.
+- Rebuild the container.
