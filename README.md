@@ -187,7 +187,7 @@ Then you can test that the MQTT broker is correctly exposed on your local host u
 mosquitto_pub -t hermes/tts/say -h localhost -p 8888 -m '{"siteId":"default", "lang":"en-us", "text": "Can you ear this? Thanks for your attention.", "id": "123456", "sessionId": "1234"}'
 ```
 
-Your action is now able to communicate with the snips platform.
+Your action code is now able to communicate with the snips platform through the MQTT broker.
 
 ### Method 2 - Run your action code in the container
 
