@@ -11,7 +11,7 @@ This repository provides the instructions, DockerFile and scripts needed to:
 
 ## Build the snips platform container
 
-### Prequisites
+### Prerequisites
 
 - [Docker](https://docs.docker.com/ee/desktop/) is up and running on your host operating system.
 
