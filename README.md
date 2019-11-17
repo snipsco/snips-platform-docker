@@ -18,7 +18,7 @@ This repository provides the instructions, DockerFile and scripts needed to:
 ### Clone this repository
 
 ```bash
-git clone git@github.com:snipsco/snips-platform-docker.git
+git clone https://github.com/snipsco/snips-platform-docker.git
 ```
 
 ### Build the container
